@@ -18,20 +18,20 @@ CODE_CXX=$(CODE_LISTS:%.tbl=%.inc)
 all: code_tables.o libtransliterate.la 
 
 %.o: %.c++
-	libtool --mode=compile $(CXX) $(CFLAGS) -c -o $@ $<
+	glibtool --mode=compile --tag=cc $(CXX) $(CFLAGS) -c -o $@ $<
 
 %.inc: %.tbl tbl2cpp.py
 	python tbl2cpp.py < $< > $@
 
 libtransliterate.la: $(OBJS)
-	libtool --mode=link \
-		g++ $(CFLAGS) -o libtransliterate.la -release $(RELEASE) \
+	glibtool --mode=link --tag=cc \
+		gcc $(CFLAGS) -o libtransliterate.la -release $(RELEASE) \
 			-rpath /usr/local/lib $(OBJS:%.o=%.lo)
 
 code_tables.o: code_tables.c++ tbl2cpp.py $(CODE_CXX)
 
 install: transliterate.h libtransliterate.la
-	libtool --mode=install install -c libtransliterate.la \
+	glibtool --mode=install install -c libtransliterate.la \
 		/usr/local/lib/libtransliterate.la
 
 	install -c transliterate.h /usr/local/include/transliterate.h

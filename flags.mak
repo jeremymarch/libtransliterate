@@ -8,4 +8,5 @@ LDFLAGS=-pipe
 ifeq ($(UNAME), Darwin)
 CFLAGS+=-arch i386 -arch x86_64
 LDFLAGS+=-arch=i386 -arch x86_64
+LTFLAGS=--tag=cc, *args
 endif
