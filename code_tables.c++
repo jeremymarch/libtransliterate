@@ -15,6 +15,7 @@
 // DISCLAIMED.
 
 #include "code_tables.h"
+#include "GreekUnicode.h"
 
 void add_greek_asterisk_code_table(code_container *container)
 {

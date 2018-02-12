@@ -2,6 +2,13 @@ include flags.mak
 
 RELEASE=0.1
 
+ifeq ($(UNAME), Darwin)
+	LIBTOOL=glibtool
+else
+	LIBTOOL=libtool
+endif
+
+
 # The sources for the library
 SRCS=betacode_greek.c++ betacode_coptic.c++ betacode_hebrew.c++ \
 	cjhebrew.c++ conversion.c++
@@ -15,23 +22,23 @@ CODE_LISTS=greek_asterisk.tbl greek_case.tbl\
 	cjhebrew.tbl
 CODE_CXX=$(CODE_LISTS:%.tbl=%.inc)
 
-all: code_tables.o libtransliterate.la 
+all: code_tables.o libtransliterate.la
 
 %.o: %.c++
-	glibtool --mode=compile --tag=cc $(CXX) $(CFLAGS) -c -o $@ $<
+	$(LIBTOOL) --tag=CC --mode=compile $(CXX) $(CFLAGS) -c -o $@ $<
 
 %.inc: %.tbl tbl2cpp.py
 	python tbl2cpp.py < $< > $@
 
 libtransliterate.la: $(OBJS)
-	glibtool --mode=link --tag=cc \
-		gcc $(CFLAGS) -o libtransliterate.la -release $(RELEASE) \
+	$(LIBTOOL) --tag=LD --mode=link \
+		g++ $(CFLAGS) -o libtransliterate.la -release $(RELEASE) \
 			-rpath /usr/local/lib $(OBJS:%.o=%.lo)
 
 code_tables.o: code_tables.c++ tbl2cpp.py $(CODE_CXX)
 
 install: transliterate.h libtransliterate.la
-	glibtool --mode=install install -c libtransliterate.la \
+	$(LIBTOOL) --mode=install install -c libtransliterate.la \
 		/usr/local/lib/libtransliterate.la
 
 	install -c transliterate.h /usr/local/include/transliterate.h
@@ -40,7 +47,7 @@ ifeq ($(UNAME), Linux)
 	ldconfig
 endif
 
-depend: 
+depend:
 	rm -f depend
 	$(CXX) -MM $(SRCS) > depend
 
@@ -51,8 +58,6 @@ clean:
 
 	rm -f *.lo
 	rm -R -f .libs
-	rm -f *.la	
+	rm -f *.la
 
 -include depend
-
-

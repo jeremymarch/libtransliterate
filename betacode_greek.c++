@@ -34,7 +34,7 @@ public:
             || c == ':' || c == ';' || c == '.';
     }
 };
-    
+
 class asterisk_combining_trie_t: public forward_greek_trie
 {
 public:
@@ -123,7 +123,7 @@ namespace transliterate
     {
         if (precombined) precombined = 1;
         if (asterisk_syntax) asterisk_syntax = 1;
-    
+
         return forward_tries_utf16[asterisk_syntax][precombined]->process(
             betacode, output_buffer, buffer_length);
     }

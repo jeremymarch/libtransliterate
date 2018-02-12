@@ -19,6 +19,10 @@
 #ifndef TRANSLITERATE_H
 #define TRANSLITERATE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* The functions that do the transliteration accept a regular
  * null-terminated string as input and write their ouput into a buffer
  * of uint16_t quantities you provide, together with its maximun
@@ -69,7 +73,7 @@ namespace transliterate
                                     uint16_t *output_buffer,
                                     size_t buffer_length);
 
-    
+
     // cjhebrew
     /* I use the cjhebrew quite a bit in LaTeX, so this function
      * should be fairly well tested. */
@@ -77,14 +81,18 @@ namespace transliterate
                              uint16_t *output_buffer,
                              size_t buffer_length);
 
-    // Conversion to UTF-8.    
+    // Conversion to UTF-8.
     /* This is mainly used by the swig interface definition, but I
-     * thought some may find it usefull right here in the library.     
+     * thought some may find it usefull right here in the library.
      * Based on utf8.h and utf8.c written by Alexey Vatchenko. See
      * conversion.c++ for details.
      */
     size_t utf16_to_utf8(uint16_t *input, char *buffer,
                          size_t buffer_length);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

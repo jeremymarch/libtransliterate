@@ -31,8 +31,8 @@ def quote_quote(s):
     s = replace(s, "\\", "\\\\")
     s = replace(s, '"', '\\"')
     return s
-    
-    
+
+
 def pair(line):
     ret = strip(split(line, "//")[0])
     if ret == "":
@@ -43,14 +43,14 @@ def pair(line):
 
         beta = underscore_re.sub(underscore_replacer, beta)
         beta = quote_quote(beta)
-        
+
         return beta, map(lambda hex: int(hex, 16), parts[1:])
-    
+
 def main():
     print "// DO NOT MODIFY!"
     print "// This file has been automatically generated."
     print
-    
+
     pairs = map(pair, sys.stdin.readlines())
     pairs = filter(lambda p: p is not None, pairs)
 
@@ -61,7 +61,7 @@ def main():
         #utf8 = u.encode("utf-8")
         #utf8 = quote_quote(utf8)
         #, (char *)"%s"
-        
+
         codepoints.append(0)
         codepoints = map(lambda codepoint: "0x%04x" % codepoint, codepoints)
         codepoints = join(codepoints, ", ")
@@ -70,6 +70,6 @@ def main():
             beta, counter, )
 
         counter += 1
-    
-    
-main()    
+
+
+main()
